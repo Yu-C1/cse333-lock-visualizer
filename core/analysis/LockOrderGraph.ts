@@ -1,5 +1,8 @@
 import { Program } from "../ir/Program";
 
+// This function detects deadlock by recording lock orders, and
+// checking cycle using dfs helper. 
+// Return true when there is a cycle.
 export function hasDeadlock(program: Program): boolean {
   const graph = new Map<string, Set<string>>();
   for (const lock of program.locks) {
@@ -23,14 +26,17 @@ export function hasDeadlock(program: Program): boolean {
   return hasCycle(graph);
 }
 
+// Dfs helper to detect cycle
 function hasCycle(graph: Map<string, Set<string>>): boolean {
-  const visited = new Set<string>();
-  const stack = new Set<string>();
+  const visited = new Set<string>();  // explored
+  const stack = new Set<string>();  // current path
 
   function dfs(node: string): boolean {
+    // if two same nodes on the same path, it is a cycle
     if (stack.has(node)) {
       return true;
     }
+    // skip the node if it has been explored
     if (visited.has(node)) {
       return false;
     }
@@ -43,7 +49,7 @@ function hasCycle(graph: Map<string, Set<string>>): boolean {
         return true;
       }
     }
-    stack.delete(node);
+    stack.delete(node);  // clear the current path memory for the next one
     return false;
   }
 
