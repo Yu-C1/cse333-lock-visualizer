@@ -42,7 +42,7 @@ function Diagnostics({ events }: { events: any[] }) {
 
   return (
     <div className="diagnostics-panel">
-      <h3 className="diagnostics-title">🔍 Analysis Results</h3>
+      <h3 className="diagnostics-title"> Analysis Results</h3>
 
       {deadlocks.map((_, i) => (
         <div key={i} className="issue-card deadlock-card">
@@ -86,7 +86,7 @@ function Diagnostics({ events }: { events: any[] }) {
               <ul>
                 <li>One thread reads while another writes → unpredictable values</li>
                 <li>Both threads write → lost updates</li>
-                <li>Race conditions lead to hard-to-debug bugs 🐛</li>
+                <li>Race conditions lead to hard-to-debug bugs</li>
               </ul>
             </div>
             <div className="issue-tip">
@@ -207,7 +207,7 @@ export function Workspace() {
       {/* Controls */}
       <div className="control-panel">
         <button className="btn-primary" onClick={analyze}>
-          🔍 Analyze Program
+          Analyze Program
         </button>
 
         {events && (
@@ -228,12 +228,6 @@ export function Workspace() {
               disabled={step >= events.length}
             >
               Next →
-            </button>
-            <button 
-              className={`btn-play ${playing ? 'playing' : ''}`}
-              onClick={() => setPlaying(p => !p)}
-            >
-              {playing ? "⏸ Pause" : "▶ Play"}
             </button>
             <span className="step-indicator">
               Step <strong>{step}</strong> of <strong>{events.length}</strong>

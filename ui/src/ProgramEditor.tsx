@@ -5,7 +5,7 @@ type Props = {
   onChange: (p: Program) => void;
 };
 
-export function ProgramEditor({ program, onChange }: Props) {
+export function ProgramEditor({ program }: Props) {
   return (
     <div>
       <h3>Threads</h3>
