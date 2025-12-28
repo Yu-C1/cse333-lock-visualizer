@@ -3,7 +3,7 @@
 An interactive web-based tool for **building, visualizing, and analyzing concurrent thread programs**.  
 This project helps users understand **locks, data races, and deadlocks** through drag-and-drop execution modeling and step-by-step analysis.
 
-🌐 **Live Demo:** https://yu-c1.github.io/cse333-lock-visualizer/
+🌐 **Live Demo:** https://yu-c1.github.io/cse332-lock-visualizer/
 *(GitHub Pages deployment)*
 
 ---

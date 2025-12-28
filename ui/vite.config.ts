@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from "path";
 
 export default defineConfig({
-  base: 'cse333-lock-visualizer',
+  base: 'cse332-lock-visualizer',
   plugins: [react()],
   resolve: {
     alias: {

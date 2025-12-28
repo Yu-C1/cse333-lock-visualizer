@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/Yu-C1/cse333-lock-visualizer",
+  "homepage": "https://github.com/Yu-C1/cse332-lock-visualizer",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",

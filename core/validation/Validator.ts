@@ -31,6 +31,9 @@ export function validateProgram(program: Program): string[] {
   for (const thread of program.threads) {
     const busyLocks = new Set<string>();
     for (const ins of thread.instructions) {
+      if (!ins) {
+        continue;
+      }
       if (ins.type === "LOCK") {
         if (busyLocks.has(ins.lock)) {
           errorMessage.push(`Thread ${thread.id} locks '${ins.lock}' twice without unlocking`);
