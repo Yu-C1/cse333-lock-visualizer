@@ -6,6 +6,10 @@
     "module": "ESNext",
     "types": ["node"],
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "core/*": ["../core/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",

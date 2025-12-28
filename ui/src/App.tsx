@@ -1,10 +1,11 @@
-function App() {
+import { Workspace } from "./workspace/Workspace";
+import "./App.css";
+
+export default function App() {
   return (
-    <div>
-      <h1>CSE 333 Lock Visualizer</h1>
-      <p>Drag-and-drop concurrency debugger</p>
+    <div className="app">
+      <h1>Lock Visualizer</h1>
+      <Workspace />
     </div>
   );
 }
-
-export default App;
