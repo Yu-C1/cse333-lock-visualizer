@@ -9,17 +9,23 @@ type UiThread = {
 type Props = {
   thread: UiThread;
   current: any;
-  onDropInstruction: (ins: Instruction) => void;
+  locks: string[];
+  variables: string[];
+  onDropInstruction: (ins: Instruction, index: number) => void;
   onRemoveInstruction: (index: number) => void;
   onReorderInstruction: (from: number, to: number) => void;
+  onUpdateInstruction: (index: number, ins: Instruction) => void;
 };
 
 export function ThreadLane({
   thread,
   current,
+  locks,
+  variables,
   onDropInstruction,
   onRemoveInstruction,
-  onReorderInstruction
+  onReorderInstruction,
+  onUpdateInstruction
 }: Props) {
   return (
     <div
@@ -32,15 +38,8 @@ export function ThreadLane({
 
         const data = JSON.parse(raw);
 
-        // Case 1: from palette → append
         if (data.kind === "palette") {
-          onDropInstruction(data.instruction);
-          return;
-        }
-
-        // Case 2: reordering within thread → move to end
-        if (data.kind === "thread") {
-          onReorderInstruction(data.fromIndex, thread.instructions.length - 1);
+          onDropInstruction(data.instruction, thread.instructions.length);
         }
       }}
     >
@@ -60,23 +59,12 @@ export function ThreadLane({
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => {
               e.preventDefault();
-              e.stopPropagation();
-
               const raw = e.dataTransfer.getData("text/plain");
               if (!raw) return;
 
               const data = JSON.parse(raw);
-
-              if (data.kind === "thread") {
+              if (data.kind === "thread" && data.fromIndex !== i) {
                 onReorderInstruction(data.fromIndex, i);
-              }
-
-              if (data.kind === "palette") {
-                onReorderInstruction(
-                  thread.instructions.length, // treat palette insert as move-from-end
-                  i
-                );
-                onDropInstruction(data.instruction);
               }
             }}
           >
@@ -85,6 +73,9 @@ export function ThreadLane({
               active={active}
               threadId={thread.id}
               index={i}
+              locks={locks}
+              variables={variables}
+              onUpdate={(updated) => onUpdateInstruction(i, updated)}
               onRemove={() => onRemoveInstruction(i)}
             />
           </div>

@@ -13,6 +13,19 @@ type CurrentExec = {
   variable?: string;
 } | null;
 
+function uppercaseAlphabet(): string[] {
+  return Array.from({ length: 26 }, (_, i) =>
+    String.fromCharCode(65 + i)
+  );
+}
+
+function lowercaseAlphabet(): string[] {
+  return Array.from({ length: 26 }, (_, i) =>
+    String.fromCharCode(97 + i)
+  );
+}
+
+
 function getCurrentExecution(events: any[], step: number): CurrentExec {
   if (step === 0 || step > events.length) return null;
   const e = events[step - 1];
@@ -60,7 +73,7 @@ function Diagnostics({ events }: { events: any[] }) {
               <ul>
                 <li>Thread 1 holds Lock A and waits for Lock B</li>
                 <li>Thread 2 holds Lock B and waits for Lock A</li>
-                <li>Result: Both threads are stuck forever ⏸️</li>
+                <li>Result: Both threads are stuck forever</li>
               </ul>
             </div>
             <div className="issue-tip">
@@ -101,8 +114,8 @@ function Diagnostics({ events }: { events: any[] }) {
 
 export function Workspace() {
   const [program, setProgram] = useState<Program>({
-    locks: ["A", "B"],
-    variables: ["x"],
+    locks: uppercaseAlphabet(),
+    variables: lowercaseAlphabet(),
     threads: [
       { id: 1, instructions: [] },
       { id: 2, instructions: [] }
@@ -159,16 +172,30 @@ export function Workspace() {
                 key={t.id}
                 thread={t}
                 current={current}
-                onDropInstruction={(ins) => {
+                locks={program.locks}
+                variables={program.variables}
+                onDropInstruction={(ins: any) => {
                   setProgram(p => ({
                     ...p,
-                    threads: p.threads.map(th =>
-                      th.id === t.id
-                        ? { ...th, instructions: [...th.instructions, ins] }
-                        : th
-                    )
+                    threads: p.threads.map(th => {
+                      if (th.id !== t.id) return th;
+
+                      const copy = [...th.instructions];
+
+                      if (typeof ins.__insertIndex === "number") {
+                        copy.splice(ins.__insertIndex, 0, {
+                          ...ins,
+                          __insertIndex: undefined
+                        });
+                      } else {
+                        copy.push(ins);
+                      }
+
+                      return { ...th, instructions: copy };
+                    })
                   }));
                 }}
+
                 onRemoveInstruction={(index) => {
                   setProgram(p => ({
                     ...p,
@@ -182,6 +209,7 @@ export function Workspace() {
                     )
                   }));
                 }}
+
                 onReorderInstruction={(from, to) => {
                   setProgram(p => ({
                     ...p,
@@ -196,7 +224,24 @@ export function Workspace() {
                     })
                   }));
                 }}
+
+                onUpdateInstruction={(index, updated) => {
+                  setProgram(p => ({
+                    ...p,
+                    threads: p.threads.map(th =>
+                      th.id === t.id
+                        ? {
+                            ...th,
+                            instructions: th.instructions.map((ins, i) =>
+                              i === index ? updated : ins
+                            )
+                          }
+                        : th
+                    )
+                  }));
+                }}
               />
+
             ))}
           </div>
         </div>

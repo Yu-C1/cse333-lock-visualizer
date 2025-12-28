@@ -2,14 +2,14 @@ import { Instruction } from "core/ir/Instruction";
 import { InstructionBlock } from "./InstructionBlock";
 
 const PALETTE: Instruction[] = [
-  { type: "LOCK", lock: "A" },
-  { type: "UNLOCK", lock: "A" },
+  { type: "LOCK", lock: "" },
+  { type: "UNLOCK", lock: "" },
 
-  { type: "LOCK", lock: "B" },
-  { type: "UNLOCK", lock: "B" },
+  { type: "LOCK", lock: "" },
+  { type: "UNLOCK", lock: "" },
 
-  { type: "READ", variable: "x" },
-  { type: "WRITE", variable: "x" }
+  { type: "READ", variable: "" },
+  { type: "WRITE", variable: "" }
 ];
 
 export function InstructionPalette() {
