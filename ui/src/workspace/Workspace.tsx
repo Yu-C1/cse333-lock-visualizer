@@ -138,7 +138,7 @@ export function Workspace() {
     <div className="workspace-container">
       {/* Header */}
       <div className="workspace-header">
-        <h1>🧵 Concurrency Visualizer</h1>
+        <h1>- Concurrency Visualizer -</h1>
         <p className="workspace-subtitle">
           Build thread programs and discover race conditions & deadlocks
         </p>
