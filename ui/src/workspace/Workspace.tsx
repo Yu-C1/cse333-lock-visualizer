@@ -111,7 +111,6 @@ export function Workspace() {
 
   const [events, setEvents] = useState<any[] | null>(null);
   const [step, setStep] = useState(0);
-  const [playing, setPlaying] = useState(false);
 
   const current = events ? getCurrentExecution(events, step) : null;
 
@@ -133,7 +132,6 @@ export function Workspace() {
     }));
     setEvents(null);
     setStep(0);
-    setPlaying(false);
   }
 
   return (
