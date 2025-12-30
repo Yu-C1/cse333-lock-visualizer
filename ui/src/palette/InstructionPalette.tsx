@@ -4,10 +4,6 @@ import { InstructionBlock } from "./InstructionBlock";
 const PALETTE: Instruction[] = [
   { type: "LOCK", lock: "" },
   { type: "UNLOCK", lock: "" },
-
-  { type: "LOCK", lock: "" },
-  { type: "UNLOCK", lock: "" },
-
   { type: "READ", variable: "" },
   { type: "WRITE", variable: "" }
 ];

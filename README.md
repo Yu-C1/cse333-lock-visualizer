@@ -3,7 +3,7 @@
 An interactive web-based tool for **building, visualizing, and analyzing concurrent thread programs**.  
 This project helps users understand **locks, data races, and deadlocks** through drag-and-drop execution modeling and step-by-step analysis.
 
-🌐 **Live Demo:** https://yu-c1.github.io/cse332-lock-visualizer/
+**Live Demo:** https://yu-c1.github.io/cse332-lock-visualizer/
 *(GitHub Pages deployment)*
 
 ---
@@ -11,7 +11,7 @@ This project helps users understand **locks, data races, and deadlocks** through
 ## Motivation
 
 Concurrency bugs such as **data races** and **deadlocks** are notoriously difficult to debug.  
-This project aims to make these issues **visual, interactive, and intuitive**.
+This project aims to make these issues visual, interactive, and intuitive.
 
 ---
 
@@ -20,11 +20,14 @@ This project aims to make these issues **visual, interactive, and intuitive**.
 ### Drag-and-Drop Thread Construction
 - Build concurrent programs by dragging instructions into **Thread 1** and **Thread 2**
 - Supported operations:
-  - `lock(A)`, `unlock(A)`
-  - `lock(B)`, `unlock(B)`
-  - `read(x)`, `write(x)`
+  - `lock()`
+  - `unlock()`
+  - `read()`
+  - `write()`
 
 ### Static Concurrency Analysis
+Before execution, the program is statically validated to detect common concurrency errors. These include undeclared locks or variables, unlocking a lock without holding it, locking the same lock twice without unlocking, exiting a thread while still holding locks, and duplicate declarations. Any detected issues are reported with clear error messages explaining the problem.
+
 - Detects:
   - **Data races** (unsynchronized reads/writes)
   - **Invalid lock usage** (unlock without ownership, exit without unlock .etc)
@@ -35,13 +38,9 @@ This project aims to make these issues **visual, interactive, and intuitive**.
 ### Execution Timeline Visualization
 - Displays a timeline of:
   - Lock acquisition
-  - Reads
+  - Reads / Writes
   - Releases
 - Helps users reason about interleavings and shared state access
-
-### Safe Program Detection
-- Confirms when a program is free of races and deadlocks
-- Provides positive feedback for correct synchronization
 
 ---
 
@@ -52,6 +51,9 @@ This project aims to make these issues **visual, interactive, and intuitive**.
 - **Deployment:** GitHub Pages
 
 ---
+
+## Intended Audience
+This tool is intended for computer science students learning concurrency, or teaching assistants/instructors who want a visual teaching aid, and those that want an intuitive way to understand synchronization bugs.
 
 ## Example Scenarios
 
@@ -66,11 +68,25 @@ Thread 2:
   lock(A)
   write(x)
   unlock(A)
+```
+### Incorrect Synchronization
+```text
+Thread 1:
+  lock(A)
+  read(x)
+  unlock(A)
+
+Thread 2:
+  lock(B)
+  write(x)
+  unlock(B)
+
+  DATA RACE!!
+  ```
 
 ## How It Works Internally
 
-The Lock Visualizer models concurrent execution using a **structured program representation** and a **deterministic analysis pass**, rather than real OS threads. This avoids nondeterminism while allowing precise reasoning about synchronization correctness.
-
+The Lock Visualizer models concurrent programs using a structured and data-driven representation rather than executing real threads. Each thread is represented as an ordered list of instructions (lock, unlock, read, write), allowing the system to deterministically simulate execution interleavings. This allows static detection of data races, deadlocks, and invalid lock usage without relying on OS-level concurrency. 
 ---
 
 ### Program Representation
