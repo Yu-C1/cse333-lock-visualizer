@@ -84,10 +84,12 @@ Thread 2:
   DATA RACE!!
   ```
 
+---
+
 ## How It Works Internally
 
 The Lock Visualizer models concurrent programs using a structured and data-driven representation rather than executing real threads. Each thread is represented as an ordered list of instructions (lock, unlock, read, write), allowing the system to deterministically simulate execution interleavings. This allows static detection of data races, deadlocks, and invalid lock usage without relying on OS-level concurrency. 
----
+
 
 ### Program Representation
 
